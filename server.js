@@ -33,7 +33,7 @@ app.post('/auth', (req, res) => {
   return res.json({ success: false });
 });
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 

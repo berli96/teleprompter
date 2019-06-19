@@ -81,7 +81,7 @@ const Savior = () => {
               key={i}
               content={pre.text}
               className='preset-message'
-              onClick={() => presetOnClick(pre)}
+              onClick={() => presetOnClick(pre.text)}
               type='button'
             />
           ))}
