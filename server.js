@@ -43,6 +43,6 @@ io.on('connection', socket => {
   });
 });
 
-http.listen(process.env.port || 8080, () => {
+http.listen(process.env.PORT || 8080, () => {
   console.log('server is running');
 });
