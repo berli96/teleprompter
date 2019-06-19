@@ -47,7 +47,7 @@ const Auth = () => {
           />
           <Header
             as='h4'
-            content='Sign in first, savior'
+            content='Sign in first'
             style={{ marginTop: 0, marginBottom: '1em' }}
             textAlign='center'
           />
