@@ -58,7 +58,6 @@ const Prompter = () => {
             justifyContent: 'center',
             lineHeight: '1',
             width: '90%',
-            // float: 'right',
             margin: 'auto',
           }}
           max={200}
