@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, Button, Header } from 'semantic-ui-react';
 import { navigate } from '@reach/router';
 import axios from 'axios';
+import config from '../../globals/config';
 
 const Auth = () => {
   const [password, setPassword] = React.useState('');
@@ -19,7 +20,7 @@ const Auth = () => {
     e.preventDefault();
     axios
       .post(
-        'http://192.168.1.14:9999/auth',
+        `${config.SERVER_URL}/auth`,
         {},
         {
           auth: {

@@ -43,6 +43,6 @@ io.on('connection', socket => {
   });
 });
 
-http.listen(9999, '192.168.1.14', () => {
-  console.log('server is running on port 9999');
+http.listen(process.port || 8080, () => {
+  console.log('server is running');
 });
