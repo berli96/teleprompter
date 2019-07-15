@@ -3,8 +3,10 @@ import { Header } from 'semantic-ui-react';
 import { navigate } from '@reach/router';
 
 const PickOne = () => {
-  const goTo = url => {
-    navigate(url);
+
+  const goToSignIn = role => {
+    localStorage.setItem('role', role);
+    navigate('/signin');
   };
 
   return (
@@ -12,7 +14,7 @@ const PickOne = () => {
       <Header as='h2' className='pick-header'>
         Pick your side!
       </Header>
-      <button className='part one' tabIndex='0' onClick={() => goTo('/signin')}>
+      <button className='part one' tabIndex='0' onClick={() => goToSignIn('moderator')}>
         <Header as='h3'>Moderator</Header>
         <p className='description'>
           Someone who sends messages to the prompt screen
@@ -21,7 +23,7 @@ const PickOne = () => {
       <button
         className='part two'
         tabIndex='0'
-        onClick={() => goTo('/prompter')}
+        onClick={() => goToSignIn('prompt')}
       >
         <Header as='h3'>Prompt Screen</Header>
         <p className='description'>Shows the teleprompter screen</p>

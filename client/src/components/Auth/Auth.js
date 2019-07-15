@@ -8,6 +8,18 @@ const Auth = () => {
   const [password, setPassword] = React.useState('');
   const [username, setUsername] = React.useState('');
 
+  // React.useEffect(() => {
+  //   let username = localStorage.getItem('username');
+  //   let role = localStorage.getItem('role');
+  
+  //   if(username && role === "moderator"){
+  //     navigate('/savior')
+  //   } else if(username && role === "prompt") {
+  //     navigate('/prompter')
+  //   }
+
+  // }, [])
+
   function handleInputOnChange(e) {
     if (e.target.name === 'username') {
       setUsername(e.target.value);
@@ -32,7 +44,12 @@ const Auth = () => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem('username', res.data.username);
-          navigate('/savior');
+          let role = localStorage.getItem('role');
+          if(role === "moderator"){
+            navigate('/savior');
+          } else {
+            navigate('/prompter');
+          }
         }
       });
   }
@@ -41,10 +58,12 @@ const Auth = () => {
     <div className='signin-container'>
       <div className='form-container'>
         <div>
-          <img
-            src='https://media.giphy.com/media/KAq7hfwvKFZnoip8TO/200w_d.gif'
-            alt='savior-gif'
-          />
+          <div className="logo-container">
+            <img
+              src='./images/Skycoin-Cloud-BB-Vertical.png'
+              alt='savior-gif'
+            />
+          </div>
           <Header
             as='h4'
             content='Sign in first'

@@ -1,19 +1,19 @@
 const PRESET_MESSAGES = [
   {
-    text: "Don't",
+    text: "Stop talking about Bitcoin",
   },
   {
-    text: 'Talk',
+    text: 'Stop talking about Ethereum',
   },
   {
-    text: 'About',
+    text: 'Stop going off-topic',
   },
   {
-    text: 'Bitcoin',
+    text: 'Stop rocking back and forth',
   },
 ];
 
-const SERVER_URL = '';
+const SERVER_URL = 'http://192.168.1.14:8080';
 export default {
   PRESET_MESSAGES,
   SERVER_URL,

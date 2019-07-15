@@ -65,6 +65,15 @@ body {
 
   .form-container {
     width: 250px;
+
+    .logo-container {
+      width: 200px;
+      width: 100%;
+      text-align: center;
+      img {
+        width: 250px;
+      }
+    }
   }
 }
 
@@ -161,11 +170,9 @@ body {
   }
 
   .sender-name-container {
-    // position: absolute;
-    // top: 8px;
-    // left: 8px;
-    height: 8vh;
     background: rgb(255, 255, 255);
+    padding-top: 15px;
+    padding-bottom: 15px;
     color: black;
     font-size: 16px;
     z-index: 100;
@@ -189,6 +196,15 @@ body {
     align-self: flex-end;
     word-break: keep-all;
     hyphens: auto;
+  }
+
+  .fullscreen {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 1000;
   }
 }
 

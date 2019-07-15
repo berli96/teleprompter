@@ -17,7 +17,8 @@ const Savior = () => {
   let textAreaRef = React.useRef();
 
   React.useEffect(() => {
-    if (!localStorage.getItem('username')) {
+    let username = localStorage.getItem('username');
+    if (!username) {
       navigate('/');
     }
   }, []);
