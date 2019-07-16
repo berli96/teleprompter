@@ -9,9 +9,9 @@ const path = require('path');
 
 app.use(cors({ origin: '*' }));
 const users = [
-  { username: 'admin', password: 'admin' },
-  { username: 'jhon', password: 'doe' },
-  { username: 'chad', password: 'bob' },
+  { username: 'synth', password: 'skycoinadmin' },
+  { username: 'haroon', password: 'skycoinadmin' },
+  { username: 'steve', password: 'skycoinadmin' },
 ];
 
 const check = (name, pass) =>
@@ -43,6 +43,6 @@ io.on('connection', socket => {
   });
 });
 
-http.listen(process.env.PORT || 8080, () => {
+http.listen(process.env.PORT || 8080, '192.168.1.14', () => {
   console.log('server is running');
 });

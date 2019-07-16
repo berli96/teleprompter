@@ -11,8 +11,8 @@ const PickOne = () => {
 
   return (
     <div className='pick-one'>
-      <Header as='h2' className='pick-header'>
-        Pick your side!
+      <Header as='h4' className='pick-header'>
+        <span>Pick your side!</span>
       </Header>
       <button className='part one' tabIndex='0' onClick={() => goToSignIn('moderator')}>
         <Header as='h3'>Moderator</Header>

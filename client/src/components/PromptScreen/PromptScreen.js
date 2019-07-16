@@ -15,6 +15,7 @@ const Prompter = () => {
   const [shownMessage, setShownMessage] = React.useState('');
   let messageRef = React.useRef();
   let prompterRef = React.useRef();
+  
 
   React.useEffect(() => {
     let username = localStorage.getItem('username');
@@ -24,69 +25,64 @@ const Prompter = () => {
   }, []);
 
   React.useEffect(() => {
+    
     socket.on('messageReceive', data => {
       let msgs = messages;
-      msgs.unshift(data);
+      msgs.push(data);
       setMessages(msgs);
-      if (msgs.length === 0) {
-        setShownMessage('No message for now');
-      } else {
-        setTimeout(() => {
-          messageRef.current.classList.add('fadeIn');
-          setShownMessage(messages[messages.length - 1]);
-          msgs.splice(msgs.length - 1, 1);
-          setMessages(msgs);
-        }, 4000 * msgs.length);
-        if (msgs.length > 1) {
-          setTimeout(() => {
-            messageRef.current.classList.remove('fadeIn');
-          }, 3900 * msgs.length);
+
+      setTimeout(function() {
+        prompterRef.current.classList.remove('backgound-red');
+        messageRef.current.classList.remove('fadeOut');
+        messageRef.current.classList.add('fadeIn');
+        setShownMessage(messages[0]);
+        setMessages(msgs);
+      }, 10000 * (messages.length - 1));
+
+      setTimeout(function() {
+        msgs.splice(0, 1);
+        setMessages(msgs);
+        if(messages.length){
+          prompterRef.current.classList.add('backgound-red');
         }
-      }
+        messageRef.current.classList.remove('fadeIn');
+        messageRef.current.classList.add('fadeOut');
+      }, (10000 * messages.length) + 200);
+
     });
     return () => {
       socket.disconnect();
     };
   }, [messages]);
 
-  React.useEffect(() => {
-    let interval = setInterval(() => {
-      console.log(messages.length);
-      if(!messages.length) {
-        setShownMessage('');
-      } else {
-        clearInterval(interval);
-      }
-    }, 5000);
-  }, [messages]);
 
   const toggleFullScreen = () => {
     console.log(messages);
     let elem = document.documentElement;
 
-    // if(!fullScreen) {
-    //   if (elem.requestFullscreen) {
-    //     elem.requestFullscreen();
-    //   } else if (elem.mozRequestFullScreen) { /* Firefox */
-    //     elem.mozRequestFullScreen();
-    //   } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-    //     elem.webkitRequestFullscreen();
-    //   } else if (elem.msRequestFullscreen) { /* IE/Edge */
-    //     elem.msRequestFullscreen();
-    //   }
-    //   setFullScreen(true);
-    // } else {
-    //   if (document.exitFullscreen) {
-    //     document.exitFullscreen();
-    //   } else if (document.mozCancelFullScreen) { /* Firefox */
-    //     document.mozCancelFullScreen();
-    //   } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-    //     document.webkitExitFullscreen();
-    //   } else if (document.msExitFullscreen) { /* IE/Edge */
-    //     document.msExitFullscreen();
-    //   }
-    //   setFullScreen(false);
-    // }
+    if(!fullScreen) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+      setFullScreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+      setFullScreen(false);
+    }
   }
 
   return (
