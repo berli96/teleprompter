@@ -35,21 +35,23 @@ const Prompter = () => {
         setShownMessage({message: ''});
         messageRef.current.classList.remove('fadeOut');
         prompterRef.current.classList.add('backgound-red');
-        await wait(500);
-        prompterRef.current.classList.remove('backgound-red');
         messageRef.current.classList.add('fadeIn');
         setShownMessage(messages[0]);
+        await wait(500);
+        prompterRef.current.classList.remove('backgound-red');
+        prompterRef.current.classList.add('backgound-black');
         setMessages(msgs);
-      }, 10000 * (messages.length - 1) - 1000);
+      }, 3000 * (messages.length - 1) - 1000);
 
       setTimeout(function() {
         msgs.splice(0, 1);
         setMessages(msgs);
         messageRef.current.classList.remove('fadeIn');
+        prompterRef.current.classList.remove('backgound-black');
         if(messages.length > 0 ) {
           messageRef.current.classList.add('fadeOut');
         }
-      }, (10000 * messages.length - 1));
+      }, (3000 * messages.length - 1));
 
     });
     return () => {
