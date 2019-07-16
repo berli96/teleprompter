@@ -41,7 +41,7 @@ const Prompter = () => {
         prompterRef.current.classList.remove('backgound-red');
         prompterRef.current.classList.add('backgound-black');
         setMessages(msgs);
-      }, 3000 * (messages.length - 1) - 1000);
+      }, 10000 * (messages.length - 1) - 1000);
 
       setTimeout(function() {
         msgs.splice(0, 1);
@@ -51,7 +51,7 @@ const Prompter = () => {
         if(messages.length > 0 ) {
           messageRef.current.classList.add('fadeOut');
         }
-      }, (3000 * messages.length - 1));
+      }, (10000 * messages.length - 1));
 
     });
     return () => {
