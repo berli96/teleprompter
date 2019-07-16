@@ -13,7 +13,7 @@ const PRESET_MESSAGES = [
   },
 ];
 
-const SERVER_URL = 'http://192.168.1.14:8080';
+const SERVER_URL = '';
 export default {
   PRESET_MESSAGES,
   SERVER_URL,
