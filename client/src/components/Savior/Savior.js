@@ -13,7 +13,6 @@ const Savior = () => {
   const [message, setMessage] = React.useState('');
   const [messages, setMessages] = React.useState([]);
   const [presetMessages] = React.useState(config.PRESET_MESSAGES);
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
   let textAreaRef = React.useRef();
 
   React.useEffect(() => {
@@ -40,11 +39,6 @@ const Savior = () => {
     setMessage('');
     msgs.unshift(msgData);
     setMessages(msgs);
-
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setMessage('');
-    }, 3000);
   };
 
   const emojiOnClick = emoji => {
@@ -72,7 +66,6 @@ const Savior = () => {
           className='message-input'
           value={message}
           onChange={messageOnChange}
-          disabled={isSubmitted}
           maxLength='140'
           rows='5'
         />

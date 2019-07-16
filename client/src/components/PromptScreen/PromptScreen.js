@@ -12,7 +12,7 @@ const Prompter = () => {
   const [messages, setMessages] = React.useState([]);
   const [fullScreen, setFullScreen] = React.useState(false);
 
-  const [shownMessage, setShownMessage] = React.useState('');
+  const [shownMessage, setShownMessage] = React.useState({});
   let messageRef = React.useRef();
   let prompterRef = React.useRef();
   
@@ -24,30 +24,32 @@ const Prompter = () => {
     }
   }, []);
 
+  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
   React.useEffect(() => {
-    
     socket.on('messageReceive', data => {
       let msgs = messages;
       msgs.push(data);
       setMessages(msgs);
-
-      setTimeout(function() {
-        prompterRef.current.classList.remove('backgound-red');
+      setTimeout(async function() {
+        setShownMessage({message: ''});
         messageRef.current.classList.remove('fadeOut');
+        prompterRef.current.classList.add('backgound-red');
+        await wait(500);
+        prompterRef.current.classList.remove('backgound-red');
         messageRef.current.classList.add('fadeIn');
         setShownMessage(messages[0]);
         setMessages(msgs);
-      }, 10000 * (messages.length - 1));
+      }, 10000 * (messages.length - 1) - 1000);
 
       setTimeout(function() {
         msgs.splice(0, 1);
         setMessages(msgs);
-        if(messages.length){
-          prompterRef.current.classList.add('backgound-red');
-        }
         messageRef.current.classList.remove('fadeIn');
-        messageRef.current.classList.add('fadeOut');
-      }, (10000 * messages.length) + 200);
+        if(messages.length > 0 ) {
+          messageRef.current.classList.add('fadeOut');
+        }
+      }, (10000 * messages.length - 1));
 
     });
     return () => {
@@ -57,7 +59,6 @@ const Prompter = () => {
 
 
   const toggleFullScreen = () => {
-    console.log(messages);
     let elem = document.documentElement;
 
     if(!fullScreen) {
@@ -112,7 +113,7 @@ const Prompter = () => {
           }}
           max={200}
         >
-          {shownMessage.message ? shownMessage.message : 'No Message'}
+          {shownMessage.message !== undefined ? shownMessage.message : 'No Message'}
         </Textfit>
       </div>
     </div>
