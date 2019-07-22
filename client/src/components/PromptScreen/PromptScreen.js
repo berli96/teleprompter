@@ -15,7 +15,6 @@ const Prompter = () => {
   const [shownMessage, setShownMessage] = React.useState({});
   let messageRef = React.useRef();
   let prompterRef = React.useRef();
-  
 
   React.useEffect(() => {
     let username = localStorage.getItem('username');
@@ -24,40 +23,44 @@ const Prompter = () => {
     }
   }, []);
 
-  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
   React.useEffect(() => {
+    let msgs = messages;
     socket.on('messageReceive', data => {
-      let msgs = messages;
       msgs.push(data);
       setMessages(msgs);
-      setTimeout(async function() {
-        setShownMessage({message: ''});
-        messageRef.current.classList.remove('fadeOut');
-        prompterRef.current.classList.add('backgound-red');
-        messageRef.current.classList.add('fadeIn');
-        setShownMessage(messages[0]);
-        await wait(500);
-        prompterRef.current.classList.remove('backgound-red');
-        prompterRef.current.classList.add('backgound-black');
-        setMessages(msgs);
-      }, 10000 * (messages.length - 1) - 1000);
-
-      setTimeout(function() {
-        msgs.splice(0, 1);
-        setMessages(msgs);
-        messageRef.current.classList.remove('fadeIn');
-        prompterRef.current.classList.remove('backgound-black');
-        if(messages.length > 0 ) {
-          messageRef.current.classList.add('fadeOut');
-        }
-      }, (10000 * messages.length - 1));
-
     });
     return () => {
       socket.disconnect();
     };
   }, [messages]);
+
+  React.useEffect(() => {
+    let schd = setInterval(() => {
+      let msg = messages;
+      prompterRef.current.classList.remove('background-black');
+      prompterRef.current.classList.add('background-red');
+      messageRef.current.classList.remove('fadeIn');
+        messageRef.current.classList.add('fadeOut');
+      setShownMessage(msg[0]);
+      messageRef.current.classList.remove('fadeOut');
+      messageRef.current.classList.add('fadeIn');
+      prompterRef.current.classList.remove('background-red');
+      prompterRef.current.classList.add('background-black');
+      msg.splice(0, 1);
+      setMessages(msg);
+    }, 10000);
+
+    return () => clearInterval(schd);
+
+  }, [messages])
+
+  // React.useEffect(() => {
+  //   let timer = setTimeout(() => {
+  //     console.log(messages[0]);
+  //     let msg = messages;
+  //     setMessages(msg);
+  //   }, 3000);
+  // }, [messages]);
 
 
   const toggleFullScreen = () => {
@@ -91,9 +94,9 @@ const Prompter = () => {
   return (
     <div className='prompter-container' ref={prompterRef}>
       <div className="fullscreen" onClick={toggleFullScreen} title={fullScreen ? "Close Fullscreen" : "Fullscreen"}>
-        <Icon name={fullScreen ? "compress" : "expand"} color={shownMessage.username ? "black" : "white"} size="big" />
+        <Icon name={fullScreen ? "compress" : "expand"} color={shownMessage && shownMessage.username ? "black" : "white"} size="big" />
       </div>
-      {shownMessage.username && (
+      {shownMessage && shownMessage.username && (
         <div className='sender-name-container'>
           <div className='sender-name'>
             <p>{shownMessage.username}</p>
@@ -103,7 +106,7 @@ const Prompter = () => {
       )}
       <div id='message-textfit' className='animated' ref={messageRef}>
         <Textfit
-          mode={shownMessage.message ? 'multi' : 'multi'}
+          mode="multi"
           style={{
             height: '90vh',
             display: 'flex',
@@ -115,7 +118,7 @@ const Prompter = () => {
           }}
           max={200}
         >
-          {shownMessage.message !== undefined ? shownMessage.message : 'No Message'}
+          {shownMessage && shownMessage.message !== undefined ? shownMessage.message : 'No Message'}
         </Textfit>
       </div>
     </div>
